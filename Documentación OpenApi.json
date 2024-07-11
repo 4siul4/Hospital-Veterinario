@@ -1,0 +1,321 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Hospital Clinico Vet API",
+    "description": "API para gestionar mascotas e ingresos",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Soporte",
+      "email": "soporte@hospitalclinicovet.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/hospitalclinicovet-api"
+    }
+  ],
+  "paths": {
+    "/mascota/{idMascota}": {
+      "get": {
+        "summary": "Obtener mascota por ID",
+        "parameters": [
+          {
+            "name": "idMascota",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID de la mascota"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mascota encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MascotaDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mascota no encontrada"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar mascota por ID",
+        "parameters": [
+          {
+            "name": "idMascota",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID de la mascota"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Mascota eliminada"
+          },
+          "404": {
+            "description": "Mascota no encontrada"
+          }
+        }
+      }
+    },
+    "/mascota/{idMascota}/ingreso": {
+      "get": {
+        "summary": "Obtener ingresos por ID de mascota",
+        "parameters": [
+          {
+            "name": "idMascota",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID de la mascota"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de ingresos encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IngresoDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mascota no encontrada"
+          }
+        }
+      }
+    },
+    "/mascota": {
+      "post": {
+        "summary": "Crear una nueva mascota",
+        "requestBody": {
+          "description": "Mascota a crear",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MascotaDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Mascota creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MascotaDTO"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Mascota existente"
+          }
+        }
+      }
+    },
+    "/ingreso": {
+      "get": {
+        "summary": "Obtener todos los ingresos",
+        "responses": {
+          "200": {
+            "description": "Lista de ingresos encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IngresoDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear un nuevo ingreso",
+        "requestBody": {
+          "description": "Ingreso a crear",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngresoDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ingreso creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngresoDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mascota no encontrada"
+          },
+          "409": {
+            "description": "DNI no coincide"
+          }
+        }
+      }
+    },
+    "/ingreso/{id}": {
+      "put": {
+        "summary": "Actualizar un ingreso por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID del ingreso"
+          }
+        ],
+        "requestBody": {
+          "description": "Ingreso a actualizar",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngresoDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ingreso actualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngresoDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ingreso no encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar un ingreso por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID del ingreso"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ingreso eliminado"
+          },
+          "404": {
+            "description": "Ingreso no encontrado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MascotaDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "codigoIdentificacion": {
+            "type": "string",
+            "example": "TEST12"
+          },
+          "especie": {
+            "type": "string",
+            "example": "Perro"
+          },
+          "raza": {
+            "type": "string",
+            "example": "Bulldog"
+          },
+          "edad": {
+            "type": "integer",
+            "example": 10
+          },
+          "dniResponsable": {
+            "type": "string",
+            "example": "79452348N"
+          },
+          "deleted": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "IngresoDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "fechaAlta": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-07-09T00:00:00.000Z"
+          },
+          "fechaFin": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-07-08T00:00:00.000Z"
+          },
+          "estado": {
+            "type": "string",
+            "example": "ALTA"
+          },
+          "dniPersonaRegistra": {
+            "type": "string",
+            "example": "79452348N"
+          },
+          "mascotaId": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      }
+    }
+  }
+}
